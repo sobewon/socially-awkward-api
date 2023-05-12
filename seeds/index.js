@@ -1,16 +1,18 @@
 const seedUsers = require('./user-seeds');
 const seedThoughts = require('./thought-seeds');
-
-const sequelize = require('../config/connection');
+const db = require('../config/connection');
 
 const seedAll = async () => {
-  await sequelize.sync({ force: true });
-  
+  await db;
+
   await seedUsers();
   
   await seedThoughts();
+
+  console.log('Seeding complete!');
 
   process.exit(0);
 };
 
 seedAll();
+

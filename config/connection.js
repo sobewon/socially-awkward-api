@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
 
-// Wrap Mongoose around local connection to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/socially-awkward', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/socially-awkward-db';
+
+mongoose.connect(MONGODB_URI);
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+  console.log('Connected to the database!');
 });
 
-// Export connection 
-module.exports = mongoose.connection;
+module.exports = db;

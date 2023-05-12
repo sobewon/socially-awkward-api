@@ -6,12 +6,10 @@ module.exports = {
   //get all users
   getAllUsers(req, res) {
     User.find()
-      .then(async (users) => {
-        res.json(users)
-      })
+      .then((users) => res.json(users))
       .catch((err) => {
-        console.log(err)
-        res.status(400).json(err)
+        console.log(err);
+        res.status(400).json(err);
       })
   },
 
@@ -20,7 +18,7 @@ module.exports = {
     User.findOne({_id: req.params.id})
     .then((userInfo) => {
       if (!userInfo){
-        res.status(404).json({ messasge: "no user with this id found."})
+        res.status(404).json({ message: "no user with this id found."})
         return
       }
       res.json(userInfo)
@@ -75,7 +73,7 @@ module.exports = {
   addFriend(req, res) {
     User.findOneAndUpdate(
       {_id: req.params.id},
-      {$addToSet: {friends: req.params.friend.Id}},
+      {$addToSet: {friends: req.params.friendId}},
       {new:true}
     )
     .then((user) =>
@@ -92,7 +90,7 @@ module.exports = {
   deleteFriend(req, res) {
     User.findOneAndUpdate(
       {_id: req.params.id },
-      {$pull: { friends: params.friendId}},
+      {$pull: { friends: req.params.friendId}},
       {new: true}
     )
     .then((user) => res.json(user))
